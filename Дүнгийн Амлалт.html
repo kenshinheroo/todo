@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<!-- saved from url=(0403)https://storage.cloud.mn/d4cab096fabfaeec2fda3c63545a5e3f2/A9PMF1/HIcheeliin%20shine%20jil%202_3ec134a2-7aa6-4a48-8efe-f2c07ec25ddc.html?X-Amz-Algorithm=AWS4-HMAC-SHA256&X-Amz-Credential=rAMAaxZiZu0YIuy30kQT%2F20260831%2Fus-east-1%2Fs3%2Faws4_request&X-Amz-Date=20260831T055813Z&X-Amz-Expires=3600&X-Amz-SignedHeaders=host&X-Amz-Signature=46d96e61fbbf7e635babfff8dfd6ac7d42e4dbfa298b9c800582217ce220e325 -->
+<html lang="mn"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8"><style>body {transition: opacity ease-in 0.2s; } 
+body[unresolved] {opacity: 0; display: block; overflow: hidden; position: relative; } 
+</style>
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Дүнгийн Амлалт</title>
+    <link href="./Дүнгийн Амлалт_files/css2" rel="stylesheet">
+    <!-- Confetti салют буух JS номын сан -->
+    <script src="./Дүнгийн Амлалт_files/confetti.browser.min.js.download"></script>
+    <style>
+        * { box-sizing: border-box; font-family: 'Nunito', sans-serif; }
+        
+        body {
+            background-color: #0d1117;
+            color: #c9d1d9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            margin: 0;
+            overflow: hidden;
+        }
+
+        /* Matrix Canvas арын фон */
+        #matrixCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            opacity: 0.15;
+        }
+
+        .container {
+            position: relative;
+            z-index: 2;
+            background: rgba(22, 27, 34, 0.85);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(56, 139, 253, 0.4);
+            padding: 35px;
+            border-radius: 24px;
+            box-shadow: 0 0 30px rgba(58, 134, 255, 0.25);
+            max-width: 500px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .step { display: none; }
+        .step.active { display: block; animation: fadeIn 0.5s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-family: 'Orbitron', sans-serif;
+            color: #58a6ff;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(88, 166, 255, 0.5);
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            border-radius: 12px;
+            border: 2px solid #30363d;
+            background: #0d1117;
+            color: #58a6ff;
+            font-size: 1.1rem;
+            text-align: center;
+            margin-bottom: 20px;
+            outline: none;
+            font-weight: bold;
+        }
+
+        input[type="text"]:focus { border-color: #58a6ff; box-shadow: 0 0 10px rgba(88, 166, 255, 0.3); }
+
+        .btn-action {
+            background: linear-gradient(135deg, #238636, #2ea043);
+            color: white;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(46, 160, 67, 0.4);
+            transition: all 0.2s;
+        }
+
+        .btn-action:hover { transform: scale(1.05); }
+
+        .buttons-flex {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            min-height: 100px;
+        }
+
+        #noBtn { background: #da3633; color: white; border: none; padding: 12px 24px; border-radius: 12px; font-weight: bold; cursor: pointer; }
+
+        .grid-options {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-top: 15px;
+        }
+
+        .card {
+            background: #21262d;
+            border: 2px solid #30363d;
+            border-radius: 16px;
+            padding: 15px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .card:hover {
+            border-color: #58a6ff;
+            background: #161b22;
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(88, 166, 255, 0.2);
+        }
+
+        .card-title { font-size: 1.2rem; font-weight: bold; color: #f0f6fc; }
+        .card-xp { color: #7ee787; font-size: 0.85rem; font-weight: bold; margin-top: 5px; }
+
+        /* Loader */
+        .loader {
+            border: 4px solid #30363d;
+            border-top: 4px solid #58a6ff;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            animation: spin 1s linear infinite;
+            margin: 20px auto;
+        }
+
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+
+        /* Certificate / Summary Style */
+        .cert-box {
+            background: radial-gradient(circle, #161b22 0%, #0d1117 100%);
+            border: 2px solid #e3b341;
+            padding: 20px;
+            border-radius: 16px;
+            box-shadow: 0 0 20px rgba(227, 179, 65, 0.2);
+            text-align: left;
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <canvas id="matrixCanvas" width="1520" height="722"></canvas>
+
+    <div class="container">
+        <!-- АЛХАМ 0: Нэр авах -->
+        <div id="step0" class="step active">
+            <h1>ЕОООВ ӨГЛӨӨ ӨДӨР ОРОЙН МЭНДДДДД BRONNY JAMES 👾</h1>
+            <p>Сурагчийн нэрээ оруулна уу:</p>
+            <input type="text" id="playerName" placeholder="Жишээ: Болд..." autocomplete="off">
+            <button class="btn-action" onclick="saveName()">Эхлэх 🚀</button>
+        </div>
+
+        <!-- АЛХАМ 1: Амлалт авах -->
+        <div id="step1" class="step">
+            <h1>MISSION: 100% SUCCESS</h1>
+            <p><span id="displayStudentName" style="color:#58a6ff; font-weight:bold;"></span> ээ, энэ хичээлийн жилд Мэдээлэл зүйн хичээлдээ онц сурч, багшийгаа баярлуулах уу? 💻</p>
+            <div class="buttons-flex">
+                <button id="yesBtn" class="btn-action" onclick="goToStep(2)">ТИЙМ, МЭДЭЭЖ! 🔥</button>
+                <button id="noBtn">Үгүй</button>
+            </div>
+        </div>
+
+        <!-- АЛХАМ 2: Дүнгийн зорилт -->
+        <div id="step2" class="step">
+            <h1>TARGET GRADE SELECT</h1>
+            <p>Жилийн эцэст ямар түвшинд хүрэх вэ?</p>
+            <div class="grid-options">
+                <div class="card" onclick="selectGrade(&#39;100% (A+) - LEGENDARY&#39;, 10000)">
+                    <div class="card-title">100% (A+) 🏆</div>
+                    <div class="card-xp">+10,000 XP</div>
+                </div>
+                <div class="card" onclick="selectGrade(&#39;90-99% (A) - MASTER&#39;, 5000)">
+                    <div class="card-title">90-99% (A) 🥇</div>
+                    <div class="card-xp">+5,000 XP</div>
+                </div>
+                <div class="card" onclick="selectGrade(&#39;80-89% (B) - PRO&#39;, 2500)">
+                    <div class="card-title">80-89% (B) 🥈</div>
+                    <div class="card-xp">+2,500 XP</div>
+                </div>
+                <div class="card" onclick="selectGrade(&#39;70-79% (C) - SCOUT&#39;, 1000)">
+                    <div class="card-title">70-79% (C) 🥉</div>
+                    <div class="card-xp">+1,000 XP</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- АЛХАМ 3: AI Тооцоолол (Унших анимаци) -->
+        <div id="step3" class="step">
+            <h1>ANALYZING DATA...</h1>
+            <div class="loader"></div>
+            <p style="color: #8b949e; font-size: 0.9rem;">Багшийн AI таны суралцах боломжийг тооцоолж байна...</p>
+        </div>
+
+        <!-- АЛХАМ 4: Төгсгөл / Сертификат -->
+        <div id="step4" class="step">
+            <h1 style="color: #e3b341;">QUEST COMPLETED! 🏅</h1>
+            <div class="cert-box">
+                <p style="margin: 5px 0;">👤 <b>Сурагч:</b> <span id="certName" style="color: #58a6ff;"></span></p>
+                <p style="margin: 5px 0;">🎯 <b>Зорилтот дүн:</b> <span id="certGrade" style="color: #7ee787;"></span></p>
+                <p style="margin: 5px 0;">⚡ <b>Олсон чадвар:</b> <span id="certXp" style="color: #e3b341;"></span></p>
+                <hr style="border-color: #30363d; margin: 15px 0;">
+                <p style="text-align: center; font-size: 0.85rem; color: #8b949e; margin: 0;">
+                    📸 <b> Зургийн аваад улирлын төгсгөлд шалгаарай🚀</b>
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /* Matrix Background Effect */
+        const canvas = document.getElementById('matrixCanvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+
+        const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%^&*';
+        const fontSize = 16;
+        const columns = canvas.width / fontSize;
+        const rainDrops = Array.from({ length: columns }).fill(1);
+
+        function drawMatrix() {
+            ctx.fillStyle = 'rgba(13, 17, 23, 0.05)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#0F0';
+            ctx.font = fontSize + 'px monospace';
+
+            for (let i = 0; i < rainDrops.length; i++) {
+                const text = alphabet.charAt(Math.floor(Math.random() * alphabet.length));
+                ctx.fillText(text, i * fontSize, rainDrops[i] * fontSize);
+                if (rainDrops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                    rainDrops[i] = 0;
+                }
+                rainDrops[i]++;
+            }
+        }
+        setInterval(drawMatrix, 30);
+
+        /* Logic & Interaction */
+        let studentName = "";
+        let targetGrade = "";
+        let earnedXp = 0;
+
+        function saveName() {
+            const input = document.getElementById('playerName').value;
+            if(!input.trim()) { alert("Нэрээ заавал оруулаа Bronny james"); return; }
+            studentName = input;
+            document.getElementById('displayStudentName').innerText = studentName;
+            goToStep(1);
+        }
+
+        /* Running NO Button logic */
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+        let scaleVal = 1;
+
+        noBtn.addEventListener('click', () => {
+            scaleVal += 0.3;
+            yesBtn.style.transform = `scale(${scaleVal})`;
+            const texts = ["Итгэлтэй байна уу?", "Онц сурна аа!", "YES дээр дараач ээ! 😂"];
+            noBtn.innerText = texts[Math.floor(Math.random() * texts.length)];
+        });
+
+        function goToStep(stepNum) {
+            document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+            document.getElementById('step' + stepNum).classList.add('active');
+        }
+
+        function selectGrade(grade, xp) {
+            targetGrade = grade;
+            earnedXp = xp;
+            goToStep(3); // Go to loading step
+            
+            setTimeout(() => {
+                showFinalCertificate();
+                goToStep(4);
+                // Trigger Firework / Confetti
+                confetti({ particleCount: 120, spread: 80, origin: { y: 0.6 } });
+            }, 2000); // 2 sec fake loading
+        }
+
+        function showFinalCertificate() {
+            document.getElementById('certName').innerText = studentName;
+            document.getElementById('certGrade').innerText = targetGrade;
+            document.getElementById('certXp').innerText = earnedXp + " XP";
+        }
+    </script>
+
+<veepn-lock-screen><template shadowrootmode="open"><style>html{box-sizing:border-box;-webkit-text-size-adjust:100%;-moz-text-size-adjust:100%;text-size-adjust:100%;word-break:normal;tab-size:4}*,:before,:after{box-sizing:border-box;background-repeat:no-repeat}:before,:after{-webkit-text-decoration:inherit;text-decoration:inherit;vertical-align:inherit}*{margin:0;padding:0}hr{height:0;color:inherit;border:0;border-top:1px solid;overflow:visible}details,main{display:block}summary{display:list-item}small{font-size:80%}[hidden]{display:none!important}abbr[title]{border-bottom:none;-webkit-text-decoration:underline dotted;text-decoration:underline dotted}a{background-color:#0000}a:active,a:hover{outline-width:0}code,kbd,pre,samp{font-family:monospace}pre{font-size:1em}b,strong{font-weight:bolder}sub,sup{vertical-align:baseline;font-size:75%;line-height:0;position:relative}sub{bottom:-.25em}sup{top:-.5em}table{border-color:inherit;text-indent:0}iframe{border-style:none}input{border-radius:0}[type=number]::-webkit-inner-spin-button{height:auto}[type=number]::-webkit-outer-spin-button{height:auto}[type=search]{appearance:textfield;outline-offset:-2px}[type=search]::-webkit-search-decoration{appearance:none}textarea{resize:vertical;overflow:auto}button,input,optgroup,select,textarea{font:inherit;color:inherit}optgroup{font-weight:700}button{overflow:visible}button,select{text-transform:none}button,[type=button],[type=reset],[type=submit],[role=button]{cursor:pointer}button::-moz-focus-inner{border-style:none;padding:0}[type=button]::-moz-focus-inner{border-style:none;padding:0}[type=reset]::-moz-focus-inner{border-style:none;padding:0}[type=submit]::-moz-focus-inner{border-style:none;padding:0}button,html [type=button],[type=reset],[type=submit]{appearance:auto}button,input,select,textarea{background-color:#0000;border-style:none}button:-moz-focusring{outline:1px dotted buttontext}[type=button]::-moz-focus-inner{outline:1px dotted buttontext}[type=reset]::-moz-focus-inner{outline:1px dotted buttontext}[type=submit]::-moz-focus-inner{outline:1px dotted buttontext}select{appearance:none}a:focus,button:focus,input:focus,select:focus,textarea:focus{outline-width:0}select::-ms-expand{display:none}select::-ms-value{color:currentColor}legend{color:inherit;white-space:normal;border:0;max-width:100%;display:table}::-webkit-file-upload-button{appearance:auto;color:inherit;font:inherit}[disabled]{cursor:default}img{border-style:none}progress{vertical-align:baseline}[aria-busy=true]{cursor:progress}[aria-controls]{cursor:pointer}[aria-disabled=true]{cursor:default}ul,ol{list-style-type:none}figure{margin:0}@keyframes slide-in{0%{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0%)}}.gradient-blue{background:radial-gradient(106.41% 128.47% at 50.15% 128.47%,#23abff 0%,#3066ff 100%)}.gradient-green{background:radial-gradient(92.26% 118.88% at 50.15% .13%,#00c3c3 0%,#00aab3 100%)}.gradient-purple{background:radial-gradient(165.12% 115.56% at 50.15% .13%,#a15aff 0%,#00a0eb 100%)}.bg-blue{background-color:#f2f5ff}.bg-purple{background-color:#f7f0ff}.bg-green{background-color:#ebffed}.lock-screen{letter-spacing:normal;z-index:2147483638;border-radius:24px;width:327px;font-family:FigtreeVF,sans-serif;animation:.3s ease-in-out forwards slide-in;position:fixed;bottom:24px;right:24px;overflow:hidden;box-shadow:0 24px 32px #00000014}.lock-screen__content{padding:24px 24px 64px;position:relative}.lock-screen__close{opacity:.5;justify-content:center;align-items:center;width:24px;height:24px;display:flex;position:absolute;top:16px;right:16px}.lock-screen__label{color:#fff;background-color:#fff3;border-radius:50px;justify-content:center;align-items:center;gap:8px;width:fit-content;height:26px;margin:-8px auto 16px;padding-inline:16px;font-size:12px;line-height:18px;display:flex}.lock-screen__title{color:#fff;text-align:center;margin-bottom:8px;font-size:20px;font-weight:600;line-height:28px}.lock-screen__description{color:#f5f6f7;text-align:center;font-size:14px;line-height:20px}.lock-screen__description b{font-weight:600}.lock-screen__card{z-index:1;background-color:#fff;border-radius:24px;margin-top:-44px;padding:32px 20px 20px;position:relative}.lock-screen__inner{margin-bottom:24px}.lock-screen__submit{color:#fff;background-color:#f70;border-radius:12px;justify-content:center;align-items:center;gap:10px;width:100%;height:40px;margin-bottom:16px;padding-inline:16px;font-size:16px;font-weight:700;display:flex}.lock-screen__skip{color:#82829c;justify-content:center;align-items:center;margin-inline:auto;font-size:14px;line-height:20px;display:flex}.price-card{background:linear-gradient(254.14deg,#fafbff .04%,#f5f8ff 100.04%);border:1px solid #f2f2fc;border-radius:24px;padding:24px 28px}.price-card__label{color:#4a5764;text-align:center;text-transform:uppercase;margin-bottom:16px;font-size:14px;line-height:20px}.price-card__price{justify-content:center;align-items:flex-start;column-gap:2px;margin-bottom:12px;display:flex}.price-card__currency{color:#515478;font-size:18px;line-height:28px}.price-card__number{color:#14142a;text-align:center;font-size:64px;line-height:54px}.price-card__wrap{flex-direction:column;display:flex}.price-card__decimal{color:#515478;font-size:18px;font-weight:600;line-height:28px}.price-card__period{color:#515478;margin-top:-6px;font-size:14px;line-height:20px}.price-card__discount{justify-content:center;align-items:center;margin-bottom:12px;display:flex;position:relative}.price-card__discount-divider{z-index:0;background-color:#dbe2f9;width:100%;height:1px;position:absolute;top:50%;left:0;transform:translateY(-50%)}.price-card__discount-icon{z-index:1;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%)}.price-card__discount-text{z-index:2;color:#fff;font-size:12px;font-weight:600;line-height:18px;position:relative}.price-card__features{justify-content:center;align-items:center;column-gap:16px;display:flex}.price-card__feature{color:#222e3a;align-items:center;gap:6px;font-size:14px;line-height:20px;display:flex}.price-card__feature:before{content:"";background-color:#20df9e;border-radius:50%;flex-shrink:0;width:4px;height:4px;display:block}.features-list{grid-template-columns:repeat(3,1fr);gap:12px;display:grid}.features-list__item{flex-direction:column;align-items:center;gap:6px;display:flex}.features-list__icon{border-radius:12px;justify-content:center;align-items:center;width:52px;height:52px;display:flex}.features-list__text{color:#293a53;text-align:center;letter-spacing:-.1px;font-size:16px;line-height:24px}</style></template><style>@font-face{font-family:FigtreeVF;src:url(chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/fonts/FigtreeVF.woff2)format("woff2 supports variations"),url(chrome-extension://majdfhpaihoncoakbjgbdhglocklcgno/fonts/FigtreeVF.woff2)format("woff2-variations");font-weight:100 1000;font-display:swap}</style></veepn-lock-screen></body></html>
